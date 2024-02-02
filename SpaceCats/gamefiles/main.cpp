@@ -3,6 +3,10 @@
 #include <SDL2/SDL_image.h>
 #include <headers/functioninits.h>
 
+bool fading = false;
+Uint8 fadeopacity = 0;
+bool fadingout = false;
+
 int main(int argc, char* argv[])
 {
     if (!init())
@@ -24,11 +28,34 @@ int main(int argc, char* argv[])
                 {
                     if(e.type == SDL_QUIT)
                     {
+                        quit = true;
                         exitGameLoop();
                     }
+                    else if(e.type == SDL_KEYDOWN)
+                    {
+                        if (e.key.keysym.sym == SDLK_SPACE)
+                        {
+                            fading = true;
+                            fadingout = true;
+                        }
+                    }
+                    
                 }
+                SDL_RenderClear(screenRenderer);
                 mainMenu();
-                SDL_UpdateWindowSurface(window);
+                if(fading)
+                {
+                    
+                    fading = fadeToBlack(fading, fadeopacity);
+                    fadeopacity += 1;
+                }
+                if(!fading && fadingout)
+                {
+                    fadingout = fadeToBlack(fadingout, fadeopacity);
+                    fadeopacity -= 1;
+                }
+                
+                SDL_RenderPresent(screenRenderer);
 
             }
             

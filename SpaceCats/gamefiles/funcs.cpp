@@ -1,14 +1,14 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <sstream>
 
 SDL_Window *window = NULL;
 const int WIDTH = 800, HEIGHT = 600;
-SDL_Surface *screenSurface = NULL;
-SDL_Surface *mainScreen = NULL;
-SDL_Rect mainScreenScale;
-SDL_Surface *newGame = NULL; 
-SDL_Rect newGameRect;
+SDL_Renderer *screenRenderer = NULL;
+SDL_Texture *mainScreen = NULL;
+SDL_Texture *blackScreen = NULL;
+
 
 bool init()
 {
@@ -27,72 +27,120 @@ bool init()
         }
         else
         {
-            int imageFlag = IMG_INIT_PNG;
-            if (!IMG_Init(imageFlag) & imageFlag)
+            screenRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+            if (screenRenderer == NULL)
             {
-                printf("sdl_image error: ", IMG_GetError());
+                printf("error: ", SDL_GetError());
                 success = false;
             }
             else
             {
-                screenSurface = SDL_GetWindowSurface(window);
+                SDL_SetRenderDrawColor(screenRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+                int imageFlag = IMG_INIT_PNG;
+                if (!IMG_Init(imageFlag) & imageFlag)
+                {
+                    printf("sdl_image error: ", IMG_GetError());
+                    success = false;
+                }
+                
             }
         }
+        
     }
     return success;
 }
 
 void exitGameLoop()
 {
-    SDL_FreeSurface(screenSurface);
+
+    SDL_DestroyTexture(mainScreen);
+    SDL_DestroyTexture(blackScreen);
+    SDL_DestroyRenderer(screenRenderer);
     SDL_DestroyWindow(window);
+    IMG_Quit();
     SDL_Quit();
 }
 
-SDL_Surface* loadSurface(std::string path)
+SDL_Texture* loadTexture(std::string path)
 {
     SDL_Surface *ogsurf = IMG_Load(path.c_str());
-    SDL_Surface *optimizeprime;
+    SDL_Texture *myTexture = NULL;
     if (ogsurf == NULL)
     {
         printf("surface couldn't load. error: ", IMG_GetError());
     }
     else 
     {
-        optimizeprime = SDL_ConvertSurface(ogsurf, screenSurface -> format, 0);
+        myTexture = SDL_CreateTextureFromSurface(screenRenderer, ogsurf);
         SDL_FreeSurface(ogsurf);
     }
-    return optimizeprime;
+    return myTexture;
 }
 
 bool loadImages()
 {
     bool success = true;
-    mainScreen = loadSurface("res/introscreen.png");
+    mainScreen = loadTexture("res/introfinal.png");
     if(mainScreen == NULL)
     {
         printf("mainscreen didn't load. error: ", IMG_GetError());
         success = false;
     }
-    newGame = loadSurface("res/newGameButton.png");
-    if (newGame == NULL)
+    blackScreen = loadTexture("res/black.png");
+    if (blackScreen == NULL)
     {
-        printf("newGame button didn't load. error: ", IMG_GetError());
+        printf("blackScreen didn't load. error: ", SDL_GetError());
         success = false;
     }
+    SDL_SetTextureBlendMode(blackScreen, SDL_BLENDMODE_BLEND);
+   SDL_SetTextureAlphaMod(blackScreen, 0);
+   // SDL_SetTextureAlphaMod(blackScreen, 255);
     return success;
+    
+}
+
+bool fadeToBlack(bool running, Uint8 opacity)
+{
+    
+    bool keepRunning = false;
+    if (running)
+    {
+        if (opacity < 255)
+        {
+            Uint8 temp = opacity + 1;
+            SDL_SetTextureAlphaMod(blackScreen, temp);
+            keepRunning = true;
+            
+        }
+    }
+    
+    return keepRunning;
+}
+
+bool fadeOutBlack(bool running, Uint8 opacity)
+{
+    
+    bool keepRunning = false;
+    if (running)
+    {
+        if (opacity > 0)
+        {
+            Uint8 temp = opacity - 1;
+            SDL_SetTextureAlphaMod(blackScreen, temp);
+            keepRunning = true;
+            
+        }
+    }
+    
+    return keepRunning;
 }
 
 bool mainMenu ()
 {
-    mainScreenScale.x = 0;
-    mainScreenScale.y = 0;
-    mainScreenScale.w = WIDTH;
-    mainScreenScale.h = HEIGHT;
-    newGameRect.y = 500;
-    newGameRect.x = 80;
-    newGameRect.w = 200;
-    newGameRect.h = 75;
-    SDL_BlitScaled(mainScreen, NULL, screenSurface, &mainScreenScale);
-    SDL_BlitScaled(newGame, NULL, screenSurface, &newGameRect);
+  //  SDL_SetTextureBlendMode(blackScreen, SDL_BLENDMODE_BLEND);
+    SDL_RenderCopy(screenRenderer, mainScreen, NULL, NULL);
+      //  SDL_SetTextureAlphaMod(blackScreen, 255);
+
+    SDL_RenderCopy(screenRenderer, blackScreen, NULL, NULL);
+    
 }
