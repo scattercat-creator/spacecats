@@ -113,8 +113,6 @@ bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index)
         {
             backgrounds[blackS].setAlpha(0);
             success = false;
-            printf("hello");
-            
         }
         else if(time > 120)
         {
