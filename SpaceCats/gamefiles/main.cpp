@@ -5,7 +5,9 @@
 
 bool fading = false;
 Uint8 fadeopacity = 0;
-bool fadingout = false;
+Uint32 starting;
+
+
 
 int main(int argc, char* argv[])
 {
@@ -20,6 +22,7 @@ int main(int argc, char* argv[])
             printf("failed to load images");
         }
         else{
+            currentBackground = mainS;
             SDL_Event e;
             bool quit = false;
             while (!quit)
@@ -36,25 +39,15 @@ int main(int argc, char* argv[])
                         if (e.key.keysym.sym == SDLK_SPACE)
                         {
                             fading = true;
-                            fadingout = true;
+                            starting = SDL_GetTicks();
                         }
                     }
                     
                 }
                 SDL_RenderClear(screenRenderer);
-                mainMenu();
-                if(fading)
-                {
-                    
-                    fading = fadeToBlack(fading, fadeopacity);
-                    fadeopacity += 1;
-                }
-                if(!fading && fadingout)
-                {
-                    fadingout = fadeToBlack(fadingout, fadeopacity);
-                    fadeopacity -= 1;
-                }
                 
+                setCurrentTexture(currentBackground);
+                fading = fadeTo(fading, starting, fadeopacity, mainS);
                 SDL_RenderPresent(screenRenderer);
 
             }

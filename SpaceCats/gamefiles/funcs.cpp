@@ -1,13 +1,30 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <sstream>
+#include <headers/textures.h>
+// #include "headers/functioninits.h"
 
+// Creates Window
 SDL_Window *window = NULL;
 const int WIDTH = 800, HEIGHT = 600;
+
+// Creates Renderer
 SDL_Renderer *screenRenderer = NULL;
-SDL_Texture *mainScreen = NULL;
-SDL_Texture *blackScreen = NULL;
+
+// Textures
+Texture mainScreen;
+Texture blackScreen;
+Texture gamePlayer;
+Texture backgrounds[] = {mainScreen, blackScreen, gamePlayer};
+// textures enum
+enum textures {
+    mainS,
+    blackS,
+    gameP,
+    total
+};
+
+int currentBackground = 0;
 
 
 bool init()
@@ -51,96 +68,86 @@ bool init()
 }
 
 void exitGameLoop()
-{
-
-    SDL_DestroyTexture(mainScreen);
-    SDL_DestroyTexture(blackScreen);
+{ 
     SDL_DestroyRenderer(screenRenderer);
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
 }
 
-SDL_Texture* loadTexture(std::string path)
-{
-    SDL_Surface *ogsurf = IMG_Load(path.c_str());
-    SDL_Texture *myTexture = NULL;
-    if (ogsurf == NULL)
-    {
-        printf("surface couldn't load. error: ", IMG_GetError());
-    }
-    else 
-    {
-        myTexture = SDL_CreateTextureFromSurface(screenRenderer, ogsurf);
-        SDL_FreeSurface(ogsurf);
-    }
-    return myTexture;
-}
-
 bool loadImages()
 {
-    bool success = true;
-    mainScreen = loadTexture("res/introfinal.png");
-    if(mainScreen == NULL)
+    backgrounds[mainS].loadTexture("res/introscreen.png", screenRenderer);
+    if(backgrounds[mainS].getTexture() == NULL)
     {
-        printf("mainscreen didn't load. error: ", IMG_GetError());
-        success = false;
+        printf("main screen couldn't load");
     }
-    blackScreen = loadTexture("res/black.png");
-    if (blackScreen == NULL)
+    // set up black screen
+    backgrounds[blackS].loadTexture("res/black.png", screenRenderer);
+    backgrounds[blackS].setBlendMode(SDL_BLENDMODE_BLEND);
+    backgrounds[blackS].setAlpha(0);
+    // set up game screen
+    backgrounds[gameP].loadTexture("res/gamePlayer.png", screenRenderer);
+
+    return true;
+    
+}
+
+void setCurrentTexture(int index)
+{
+    SDL_RenderCopy(screenRenderer, backgrounds[index].getTexture(), NULL, NULL);
+    
+} 
+
+bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index)
+{
+    
+    bool success = false;
+    if (running)
     {
-        printf("blackScreen didn't load. error: ", SDL_GetError());
-        success = false;
+        //printf("complete");
+        success = true;
+        Uint32 time = (SDL_GetTicks() - startTime) / 10;
+        setCurrentTexture(blackS);
+        if(time > 140)
+        {
+            backgrounds[blackS].setAlpha(0);
+            success = false;
+            printf("hello");
+            
+        }
+        else if(time > 120)
+        {
+            backgrounds[blackS].setAlpha(63);
+        }
+        else if(time > 100)
+        {
+            backgrounds[blackS].setAlpha(127);
+        }
+       else if(time > 80)
+        {
+            backgrounds[blackS].setAlpha(191);
+        }
+        else if(time > 60)
+        {
+            backgrounds[blackS].setAlpha(255);
+            currentBackground = gameP;
+        }
+        else if(time > 40)
+        {
+            backgrounds[blackS].setAlpha(191);
+            
+        }
+        else if(time > 20)
+        {
+            backgrounds[blackS].setAlpha(127);
+            
+        }
+        else 
+        {
+            backgrounds[blackS].setAlpha(63);
+           
+        }
     }
-    SDL_SetTextureBlendMode(blackScreen, SDL_BLENDMODE_BLEND);
-   SDL_SetTextureAlphaMod(blackScreen, 0);
-   // SDL_SetTextureAlphaMod(blackScreen, 255);
     return success;
-    
-}
-
-bool fadeToBlack(bool running, Uint8 opacity)
-{
-    
-    bool keepRunning = false;
-    if (running)
-    {
-        if (opacity < 255)
-        {
-            Uint8 temp = opacity + 1;
-            SDL_SetTextureAlphaMod(blackScreen, temp);
-            keepRunning = true;
-            
-        }
-    }
-    
-    return keepRunning;
-}
-
-bool fadeOutBlack(bool running, Uint8 opacity)
-{
-    
-    bool keepRunning = false;
-    if (running)
-    {
-        if (opacity > 0)
-        {
-            Uint8 temp = opacity - 1;
-            SDL_SetTextureAlphaMod(blackScreen, temp);
-            keepRunning = true;
-            
-        }
-    }
-    
-    return keepRunning;
-}
-
-bool mainMenu ()
-{
-  //  SDL_SetTextureBlendMode(blackScreen, SDL_BLENDMODE_BLEND);
-    SDL_RenderCopy(screenRenderer, mainScreen, NULL, NULL);
-      //  SDL_SetTextureAlphaMod(blackScreen, 255);
-
-    SDL_RenderCopy(screenRenderer, blackScreen, NULL, NULL);
-    
-}
+} 

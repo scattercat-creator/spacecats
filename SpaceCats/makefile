@@ -1,5 +1,5 @@
 #OBJ specifies which files to compile as part of the project
-OBJ = gamefiles/main.cpp gamefiles/funcs.cpp
+OBJ = gamefiles/main.cpp gamefiles/funcs.cpp gamefiles/textures.cpp
 
 #CC specifies which compiler we're using
 CC = g++

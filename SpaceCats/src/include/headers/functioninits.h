@@ -1,17 +1,23 @@
 #pragma once
-
+#include <headers/textures.h>
 bool init();
 
 void exitGameLoop();
 
-SDL_Texture* loadTexture(std::string path);
 
 bool loadImages();
 
-bool mainMenu ();
-
 extern SDL_Renderer* screenRenderer;
+extern int currentBackground;
 
-bool fadeToBlack(bool running, Uint8 opacity);
 
-bool fadeOutBlack(bool running, Uint8 opacity);
+bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index);
+
+void setCurrentTexture(int index);
+
+enum textures {
+    mainS,
+    blackS,
+    gameP,
+    total
+};
