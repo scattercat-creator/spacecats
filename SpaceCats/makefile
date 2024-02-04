@@ -1,5 +1,5 @@
 #OBJ specifies which files to compile as part of the project
-OBJ = gamefiles/main.cpp gamefiles/funcs.cpp gamefiles/textures.cpp
+OBJ = gamefiles/main.cpp gamefiles/funcs.cpp gamefiles/textures.cpp gamefiles/dialogue.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -14,7 +14,7 @@ LIBRARY_PATHS = -L src/lib
 # COMPILER_FLAGS = -w -Wl, -subsystem, windows
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 #OBJ_NAME specifies the anme of our executable
 OBJ_NAME = main

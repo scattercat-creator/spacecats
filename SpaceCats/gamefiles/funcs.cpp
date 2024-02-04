@@ -59,6 +59,10 @@ bool init()
                     printf("sdl_image error: ", IMG_GetError());
                     success = false;
                 }
+                if(TTF_Init() == -1)
+                {
+                    printf("ttf didn't load. Error: ", TTF_GetError());
+                }
                 
             }
         }
@@ -93,13 +97,13 @@ bool loadImages()
     
 }
 
-void setCurrentTexture(int index)
+void setCurrentBackground(int index)
 {
-    SDL_RenderCopy(screenRenderer, backgrounds[index].getTexture(), NULL, NULL);
+    backgrounds[index].render(screenRenderer, 0, 0);
     
 } 
 
-bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index)
+bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index, bool dialogueOnStart)
 {
     
     bool success = false;
@@ -108,7 +112,7 @@ bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index)
         //printf("complete");
         success = true;
         Uint32 time = (SDL_GetTicks() - startTime) / 10;
-        setCurrentTexture(blackS);
+        setCurrentBackground(blackS);
         if(time > 140)
         {
             backgrounds[blackS].setAlpha(0);

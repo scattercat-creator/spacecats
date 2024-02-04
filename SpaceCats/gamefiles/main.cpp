@@ -2,10 +2,12 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <headers/functioninits.h>
+#include <headers/dialogue.h>
 
 bool fading = false;
 Uint8 fadeopacity = 0;
 Uint32 starting;
+
 
 
 
@@ -17,6 +19,7 @@ int main(int argc, char* argv[])
     }
     else
     {
+        Dialogue dialogue;
         if (!loadImages())
         {
             printf("failed to load images");
@@ -46,8 +49,11 @@ int main(int argc, char* argv[])
                 }
                 SDL_RenderClear(screenRenderer);
                 
-                setCurrentTexture(currentBackground);
+                setCurrentBackground(currentBackground);
                 fading = fadeTo(fading, starting, fadeopacity, mainS);
+                dialogue.CreateScreen();
+                dialogue.ShowText();
+
                 SDL_RenderPresent(screenRenderer);
 
             }

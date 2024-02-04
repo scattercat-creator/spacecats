@@ -2,14 +2,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <headers/textures.h>
+#include <SDL2/SDL_ttf.h>
 
 Texture::Texture()
 {
     gTexture = NULL;
-    gRect.x = 0;
-    gRect.y = 0;
-    gRect.w = 800;
-    gRect.h = 600;
+    HEIGHT = 0;
+    WIDTH = 0;
+    font = TTF_OpenFont("fonts/retganon.ttf", 24);
+    
 }
 
 Texture::~Texture()
@@ -31,6 +32,13 @@ bool Texture::loadTexture(std::string path, SDL_Renderer *rend)
     {
         printf("texture didn't load: ", IMG_GetError());
     }
+    else
+    {
+        HEIGHT = tempSurf->h;
+        WIDTH = tempSurf->w;
+        
+    }
+    
     tempTexture = SDL_CreateTextureFromSurface(rend, tempSurf);
     if (tempTexture == NULL)
     {
@@ -38,6 +46,32 @@ bool Texture::loadTexture(std::string path, SDL_Renderer *rend)
     }
     gTexture = tempTexture;
     SDL_FreeSurface(tempSurf);
+    
+}
+
+bool Texture::loadFont(std::string text, SDL_Color textColor, SDL_Renderer*rend)
+{
+    free();
+    bool success = true;
+    SDL_Surface * temp = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    if (temp == NULL)
+    {
+        printf("text didn't load", TTF_GetError());
+        success = false;
+    }
+    else
+    {
+        WIDTH = temp->w;
+        HEIGHT = temp->h;
+        gTexture = SDL_CreateTextureFromSurface(rend, temp);
+        if (gTexture == NULL) 
+        {
+            printf("surface couldn't be created. Error: ", SDL_GetError());
+            success = false;
+        }
+    }
+    return success;
+
 }
 
 bool Texture::setBlendMode(SDL_BlendMode mode)
@@ -60,8 +94,16 @@ SDL_Rect Texture::getRect()
     return gRect;
 }
 
-void Texture::setRect(int x, int y)
+void Texture::setRect(int x, int y, int w, int h)
 {
     gRect.x = x;
     gRect.y = y;
+    gRect.w = w;
+    gRect.h = h;
+}
+
+void Texture::render(SDL_Renderer *rend, int x, int y)
+{
+    SDL_Rect destination = {x, y, WIDTH, HEIGHT};
+    SDL_RenderCopy(rend, gTexture, NULL, &destination);
 }

@@ -1,12 +1,16 @@
-#pragma onceS
+#pragma once
 #include <SDL2/SDL.h>
 #include <iostream>
+#include <SDL2/SDL_ttf.h>
 
 class Texture
 {
 private:
     SDL_Texture * gTexture;
     SDL_Rect gRect;
+    int WIDTH;
+    int HEIGHT;
+    TTF_Font *font;
 public:
     Texture();
     ~Texture();
@@ -16,5 +20,7 @@ public:
     bool setAlpha(Uint8 alpha);
     SDL_Texture *getTexture();
     SDL_Rect getRect();
-    void setRect(int x, int y);
+    void setRect(int x, int y, int w, int h);
+    void render(SDL_Renderer *rend, int x, int y);
+    bool loadFont(std::string text, SDL_Color textColor, SDL_Renderer* rend);
 };

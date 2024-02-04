@@ -13,7 +13,7 @@ extern int currentBackground;
 
 bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index);
 
-void setCurrentTexture(int index);
+void setCurrentBackground(int index);
 
 enum textures {
     mainS,
