@@ -8,13 +8,6 @@
 
 Dialogue::Dialogue()
 {
-    scene = SCENEONE;
-    screen.loadTexture("res/dialoguebox.png", screenRenderer);
-    if(screen.getTexture() == NULL)
-    {
-        printf(SDL_GetError());
-    }
-    
     
 }
 
@@ -23,14 +16,30 @@ Dialogue::~Dialogue()
     printf("dialogue deleted");
 }
 
+
 void Dialogue::CreateScreen()
 {
-    screen.render(screenRenderer, 0, 500);
+    screen.loadTexture("res/dialoguebox.png", screenRenderer);
+    if(screen.getTexture() == NULL)
+    {
+        printf(SDL_GetError());
+    }
     
+}
+
+void Dialogue::ShowScreen()
+{
+    screen.render(screenRenderer, 0, 500);
 }
 
 void Dialogue::ShowText()
 {
     text.loadFont("testing testing", {255, 255, 255}, screenRenderer);
+    // printf(TTF_GetError());
+    // printf(SDL_GetError());
+    if(screenRenderer == NULL)
+    {
+        printf("WHAT NOW HUHHHH");
+    }
     text.render(screenRenderer, 10, 510);
 }

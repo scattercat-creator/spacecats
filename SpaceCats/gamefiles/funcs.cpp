@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <headers/textures.h>
+#include <headers/dialogue.h>
 // #include "headers/functioninits.h"
 
 // Creates Window
@@ -16,6 +17,7 @@ Texture mainScreen;
 Texture blackScreen;
 Texture gamePlayer;
 Texture backgrounds[] = {mainScreen, blackScreen, gamePlayer};
+
 // textures enum
 enum textures {
     mainS,
@@ -26,6 +28,9 @@ enum textures {
 
 int currentBackground = 0;
 
+// dialogue
+Dialogue dialogue;
+int currentScene = 1;
 
 bool init()
 {
@@ -68,6 +73,7 @@ bool init()
         }
         
     }
+   
     return success;
 }
 
@@ -92,6 +98,7 @@ bool loadImages()
     backgrounds[blackS].setAlpha(0);
     // set up game screen
     backgrounds[gameP].loadTexture("res/gamePlayer.png", screenRenderer);
+    dialogue.CreateScreen();
 
     return true;
     
@@ -103,53 +110,46 @@ void setCurrentBackground(int index)
     
 } 
 
-bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index, bool dialogueOnStart)
+
+void fadeTo(int gScene)
 {
     
-    bool success = false;
-    if (running)
+    int starttime = SDL_GetTicks();
+    int currentTime = 0;
+    int temp = 0;
+    while(true)
     {
-        //printf("complete");
-        success = true;
-        Uint32 time = (SDL_GetTicks() - startTime) / 10;
-        setCurrentBackground(blackS);
-        if(time > 140)
+        currentTime = (SDL_GetTicks() - starttime) / 10;
+        if(backgrounds[blackS].getAlpha() == 255)
         {
-            backgrounds[blackS].setAlpha(0);
-            success = false;
+            break;
         }
-        else if(time > 120)
+        else if(currentTime > temp + 20)
         {
-            backgrounds[blackS].setAlpha(63);
-        }
-        else if(time > 100)
-        {
-            backgrounds[blackS].setAlpha(127);
-        }
-       else if(time > 80)
-        {
-            backgrounds[blackS].setAlpha(191);
-        }
-        else if(time > 60)
-        {
-            backgrounds[blackS].setAlpha(255);
-            currentBackground = gameP;
-        }
-        else if(time > 40)
-        {
-            backgrounds[blackS].setAlpha(191);
-            
-        }
-        else if(time > 20)
-        {
-            backgrounds[blackS].setAlpha(127);
-            
-        }
-        else 
-        {
-            backgrounds[blackS].setAlpha(63);
-           
+            backgrounds[blackS].setAlpha(backgrounds[blackS].getAlpha() + 51);
+            temp += 20;
+            SDL_RenderClear(screenRenderer);
+            SDL_RenderCopy(screenRenderer, backgrounds[currentBackground].getTexture(), NULL, NULL);
+            SDL_RenderCopy(screenRenderer, backgrounds[blackS].getTexture(), NULL, NULL);
+            SDL_RenderPresent(screenRenderer);
         }
     }
-    return success;
-} 
+    currentBackground = gScene;
+    while(true)
+    {
+        currentTime = (SDL_GetTicks() - starttime) / 10;
+        if (backgrounds[blackS].getAlpha() == 0)
+        {
+            break;
+        }
+        else if(currentTime > temp + 20)
+        {
+            backgrounds[blackS].setAlpha(backgrounds[blackS].getAlpha() - 51);
+            temp += 20;
+            SDL_RenderClear(screenRenderer);
+            SDL_RenderCopy(screenRenderer, backgrounds[currentBackground].getTexture(), NULL, NULL);
+            SDL_RenderCopy(screenRenderer, backgrounds[blackS].getTexture(), NULL, NULL);
+            SDL_RenderPresent(screenRenderer);
+        }
+    }
+}

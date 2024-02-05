@@ -5,9 +5,7 @@
 class Dialogue
 {
 private:
-    int scene;
     Texture screen;
-    SDL_Rect destination;
     Texture text;
     
     
@@ -17,6 +15,7 @@ public:
     void CreateScreen();
     void ShowText();
     void ShowOptions();
+    void ShowScreen();
     enum scenes
     {  
         SCENEONE

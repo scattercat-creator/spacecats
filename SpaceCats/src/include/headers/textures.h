@@ -11,6 +11,7 @@ private:
     int WIDTH;
     int HEIGHT;
     TTF_Font *font;
+    Uint8 opacity;
 public:
     Texture();
     ~Texture();
@@ -23,4 +24,5 @@ public:
     void setRect(int x, int y, int w, int h);
     void render(SDL_Renderer *rend, int x, int y);
     bool loadFont(std::string text, SDL_Color textColor, SDL_Renderer* rend);
+    Uint8 getAlpha();
 };

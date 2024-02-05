@@ -1,5 +1,6 @@
 #pragma once
 #include <headers/textures.h>
+#include <headers/dialogue.h>
 bool init();
 
 void exitGameLoop();
@@ -11,13 +12,18 @@ extern SDL_Renderer* screenRenderer;
 extern int currentBackground;
 
 
-bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index);
+//bool fadeTo(bool running, Uint32 startTime, Uint8 opacity, int index);
+void fadeTo(int gScene);
 
 void setCurrentBackground(int index);
 
-enum textures {
+enum textures 
+{
     mainS,
     blackS,
     gameP,
     total
 };
+
+extern Dialogue dialogue;
+extern int currentScene;

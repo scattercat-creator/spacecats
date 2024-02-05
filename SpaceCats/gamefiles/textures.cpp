@@ -10,6 +10,7 @@ Texture::Texture()
     HEIGHT = 0;
     WIDTH = 0;
     font = TTF_OpenFont("fonts/retganon.ttf", 24);
+    opacity = 255;
     
 }
 
@@ -53,10 +54,15 @@ bool Texture::loadFont(std::string text, SDL_Color textColor, SDL_Renderer*rend)
 {
     free();
     bool success = true;
+    font = TTF_OpenFont("fonts/retganon.ttf", 24);
     SDL_Surface * temp = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    if(font == NULL)
+    {
+        printf("font doesn't exist");
+    }
     if (temp == NULL)
     {
-        printf("text didn't load", TTF_GetError());
+        printf( TTF_GetError(), SDL_GetError());
         success = false;
     }
     else
@@ -82,6 +88,12 @@ bool Texture::setBlendMode(SDL_BlendMode mode)
 bool Texture::setAlpha(Uint8 alpha)
 {
     SDL_SetTextureAlphaMod(gTexture, alpha);
+    opacity = alpha;
+}
+
+Uint8 Texture::getAlpha()
+{
+    return opacity;
 }
 
 SDL_Texture * Texture::getTexture()
