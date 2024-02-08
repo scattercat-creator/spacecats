@@ -28,6 +28,7 @@ void Texture::free()
 
 bool Texture::loadTexture(std::string path, SDL_Renderer *rend)
 {
+    free();
     SDL_Texture *tempTexture = NULL;    
     SDL_Surface* tempSurf = IMG_Load(path.c_str());
     if(tempSurf == NULL)
@@ -55,15 +56,16 @@ bool Texture::loadFont(std::string text, SDL_Color textColor, SDL_Renderer*rend)
 {
     free();
     bool success = true;
-    font = TTF_OpenFont("fonts/retganon.ttf", 24);
-    SDL_Surface * temp = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    //SDL_Surface * temp = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    SDL_Surface * temp = TTF_RenderText_Blended_Wrapped(font, text.c_str(), textColor, 800);
     if(font == NULL)
     {
         printf("font doesn't exist");
     }
     if (temp == NULL)
     {
-        printf( TTF_GetError(), SDL_GetError());
+        printf( "text creation error", TTF_GetError());
+        printf(SDL_GetError());
         success = false;
     }
     else
@@ -120,4 +122,9 @@ void Texture::render(SDL_Renderer *rend, int x, int y)
 {
     SDL_Rect destination = {x, y, WIDTH, HEIGHT};
     SDL_RenderCopy(rend, gTexture, NULL, &destination);
+}
+
+void Texture::setFont(std::string path)
+{
+    font = TTF_OpenFont(path.c_str(), 24);
 }

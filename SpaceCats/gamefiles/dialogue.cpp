@@ -33,6 +33,7 @@ void Dialogue::CreateScreen()
     {
         printf("arrow couldn't load");
     }
+    text.setFont("fonts/retganon.ttf");
     
 }
 
@@ -41,13 +42,18 @@ void Dialogue::ShowScreen()
     screen.render(screenRenderer, 0, 500);
 }
 
-void Dialogue::ShowText(std::string myText)
+void Dialogue::ShowText()
 {
-    text.loadFont(myText, {255, 255, 255}, screenRenderer);
     text.render(screenRenderer, 10, 510);
+    //printf("strange sdl error: ", SDL_GetError());
 }
 
 int Dialogue::SelectOption()
 {
     return 2;
+}
+
+void Dialogue::CreateText(std::string myText)
+{
+    text.loadFont(myText, {255, 255, 255}, screenRenderer);
 }

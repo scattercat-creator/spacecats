@@ -59,6 +59,7 @@ bool sceneTwo()
             if (e.key.keysym.sym == SDLK_SPACE)
             {
                 currentText = runScript(input, runs, &needInput);
+                dialogue.CreateText(currentText);
             }
         }          
     }
@@ -68,7 +69,7 @@ bool sceneTwo()
     //printf("dialogue should've shown here");
     dialogue.ShowScreen();
     //printf("hereeee");
-    dialogue.ShowText(currentText);
+    dialogue.ShowText();
     
     // if(needInput)
     // {

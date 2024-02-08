@@ -25,4 +25,6 @@ public:
     void render(SDL_Renderer *rend, int x, int y);
     bool loadFont(std::string text, SDL_Color textColor, SDL_Renderer* rend);
     Uint8 getAlpha();
+    void setFont(std::string path);
+
 };

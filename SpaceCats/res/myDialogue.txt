@@ -18,7 +18,7 @@ YOU: ...
 [HARVEY]
 HARVEY: You heard the boss, I'm in charge now!
 HARVEY: And you better bet your ass I'll have you fired by the end of the week!
-|[0]YOU: I'm shivering in my timbers.|[0]YOU: Don't you have any other coworker to terrorize?|[0]0*IGNORE*
+|[0]YOU: I'm shivering in my timbers.|[0]YOU: Don't you have any other coworker to terrorize?|[0]YOU: *IGNORE*
 {
 HARVEY: You better be scared! *Evil laughter*
 *PHONE RINGS*

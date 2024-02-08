@@ -5,6 +5,7 @@
 #include <headers/dialogue.h>
 #include <headers/manager.h>
 #include <headers/reader.h>
+#include <headers/textures.h>
 
 
 int main(int argc, char* argv[])

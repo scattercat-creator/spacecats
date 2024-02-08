@@ -15,9 +15,11 @@ public:
     Dialogue();
     ~Dialogue();
     void CreateScreen();
-    void ShowText(std::string myText);
+    void ShowText();
     int SelectOption();
     void ShowScreen();
+    void CreateText(std::string myText);
+
     enum scenes
     {  
         SCENEONE
