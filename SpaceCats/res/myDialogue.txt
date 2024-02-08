@@ -1,0 +1,62 @@
+Press space to continue
+*RING RING*
+[BOSS]
+YOU: V speaking.
+BOSS: Heya V, how've you been?
+YOU: Depressed-
+BOSS: Sounds great! Anyways, I'm gonna be out this month on vacation and I need to ask a favor of ya.
+BOSS: The helpline's been shot, and I'm supposed to stay and fix it, but I'll be in some reallll trouble with my husband if I cancel this vacation.
+BOSS: You mind fixing the helpline while I'm out??
+YOU: Fuck no-
+BOSS: You won't have to work on weekends anymore if you succeed.
+YOU: Your word is my command.
+BOSS: Great!!! And before I forget...
+BOSS: I left Harvey in charge.
+*BEEEEEEEEP*
+YOU: ...
+*CLACK CLACK CLACK*
+[HARVEY]
+HARVEY: You heard the boss, I'm in charge now!
+HARVEY: And you better bet your ass I'll have you fired by the end of the week!
+|[0]YOU: I'm shivering in my timbers.|[0]YOU: Don't you have any other coworker to terrorize?|[0]0*IGNORE*
+{
+HARVEY: You better be scared! *Evil laughter*
+*PHONE RINGS*
+HARVEY: Well you better pick that up, I'll be back soon with your firing notice!
+*CLACK CLACK CLACK*
+}
+{
+HARVEY: Oh- 
+HARVEY: Well now that you've reminded me, I'll go terrorize Tommy now.
+HARVEY: ...thanks.
+*CLACK CLACK CLACK*
+}
+{
+HARVEY: ...hello?
+HARVEY: *squirms uncomfortably*
+HARVEY: Well I'll be going now.
+*CLACK CLACK CLACK*
+}
+*RIIIIIIING*
+Looking at the phone, you feel annoyed. You pick up anyways.
+[TOMMY]
+TOMMY: Hi V, Boss wanted me to show you how the new system works since the helpline's connection got messed up.
+TOMMY: You can change the text on the screen by hitting the space bar and choose responses using the up and down arrows.
+TOMMY: Once you've selected the option you want, just click space.
+TOMMY: Helpline's still messed up though, so you only have so much time to respond.
+TOMMY: And as a warning, Harvey can see our messages now.
+TOMMY: That's about it.
+|[1]YOU: Thanks, Tommy, wanna drop by later?|[0]YOU: I already knew that.|[0]YOU: Tommy, have you ever wanted to join a pyramid scheme?
+{
+TOMMY: Really? I thought you told me never to come back...but OK I'll be there!
+}
+{
+TOMMY: No need to be rude now, Buddy.
+}
+{
+TOMMY: You know, once I did-
+TOMMY: I'll stop.
+}
+@1TOMMY
+TOMMY: Hey Buddy! Thanks for having me over. The weather's pretty great isn't it? I've been trying to avoid Harvey all day but mannnn he's a hard one to run from!
+[END]

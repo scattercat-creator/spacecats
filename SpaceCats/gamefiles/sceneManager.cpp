@@ -4,9 +4,20 @@
 #include <headers/functioninits.h>
 #include <headers/dialogue.h>
 #include <SDL2/SDL_ttf.h>
+#include <headers/userInputManager.h>
+#include <headers/reader.h>
 
 
-bool sceneOne(SDL_Event e) 
+InputManager manager;
+bool needInput = false;
+int input = 1;
+int run = -1;
+int* runs = &run;
+SDL_Event e;
+bool spacePressed = false;
+std::string currentText = "Press space to continue.";
+
+bool sceneOne() 
 {
     while (SDL_PollEvent(&e) != 0)
     {
@@ -33,7 +44,8 @@ bool sceneOne(SDL_Event e)
     
 
 }
-bool sceneTwo(SDL_Event e)
+
+bool sceneTwo()
 {
     while (SDL_PollEvent(&e) != 0)
     {
@@ -46,16 +58,25 @@ bool sceneTwo(SDL_Event e)
         {
             if (e.key.keysym.sym == SDLK_SPACE)
             {
-                   
+                currentText = runScript(input, runs, &needInput);
             }
-        }
-                    
+        }          
     }
+    
     SDL_RenderClear(screenRenderer);
     setCurrentBackground(currentBackground);
+    //printf("dialogue should've shown here");
     dialogue.ShowScreen();
-    dialogue.ShowText();
+    //printf("hereeee");
+    dialogue.ShowText(currentText);
+    
+    // if(needInput)
+    // {
+    //     cin >> input;
+    // }
+
     SDL_RenderPresent(screenRenderer);
+    //cin.get();
     return true;
 
 }

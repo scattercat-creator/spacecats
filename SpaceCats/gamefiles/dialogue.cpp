@@ -5,6 +5,10 @@
 #include <SDL2/SDL_ttf.h>
 #include <headers/textures.h>
 #include <headers/functioninits.h>
+#include <vector>
+
+std::string optionsList[] = {"default", "default", "default"};
+int currentLine = 0;
 
 Dialogue::Dialogue()
 {
@@ -24,6 +28,11 @@ void Dialogue::CreateScreen()
     {
         printf(SDL_GetError());
     }
+    arrow.loadTexture("res/selection arrow.png", screenRenderer);
+    if(arrow.getTexture() == NULL)
+    {
+        printf("arrow couldn't load");
+    }
     
 }
 
@@ -32,14 +41,13 @@ void Dialogue::ShowScreen()
     screen.render(screenRenderer, 0, 500);
 }
 
-void Dialogue::ShowText()
+void Dialogue::ShowText(std::string myText)
 {
-    text.loadFont("testing testing", {255, 255, 255}, screenRenderer);
-    // printf(TTF_GetError());
-    // printf(SDL_GetError());
-    if(screenRenderer == NULL)
-    {
-        printf("WHAT NOW HUHHHH");
-    }
+    text.loadFont(myText, {255, 255, 255}, screenRenderer);
     text.render(screenRenderer, 10, 510);
+}
+
+int Dialogue::SelectOption()
+{
+    return 2;
 }

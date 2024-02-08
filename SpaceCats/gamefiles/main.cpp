@@ -4,6 +4,7 @@
 #include <headers/functioninits.h>
 #include <headers/dialogue.h>
 #include <headers/manager.h>
+#include <headers/reader.h>
 
 
 int main(int argc, char* argv[])
@@ -21,10 +22,11 @@ int main(int argc, char* argv[])
         else
         {
             currentBackground = mainS;
-            SDL_Event e;
+            
             //dialogue.CreateScreen();
-            while (sceneOne(e)){};
-            while(currentScene == 2 && sceneTwo(e)){};
+            while (sceneOne()){};
+            initReader();
+            while(currentScene == 2 && sceneTwo()){};
             
         }
             

@@ -1,5 +1,10 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <headers/userInputManager.h>
+#include <headers/reader.h>
 
-bool sceneOne(SDL_Event e);
-bool sceneTwo(SDL_Event e);
+
+
+bool sceneOne();
+bool sceneTwo();
+

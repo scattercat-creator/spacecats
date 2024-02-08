@@ -9,7 +9,7 @@ Texture::Texture()
     gTexture = NULL;
     HEIGHT = 0;
     WIDTH = 0;
-    font = TTF_OpenFont("fonts/retganon.ttf", 24);
+    
     opacity = 255;
     
 }
@@ -18,7 +18,8 @@ Texture::~Texture()
 {
     free();
 }
-    
+
+
 void Texture::free()
 {
     SDL_DestroyTexture(gTexture);
@@ -76,6 +77,7 @@ bool Texture::loadFont(std::string text, SDL_Color textColor, SDL_Renderer*rend)
             success = false;
         }
     }
+    
     return success;
 
 }
