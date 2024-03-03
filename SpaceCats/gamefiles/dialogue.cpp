@@ -28,10 +28,10 @@ void Dialogue::CreateScreen()
     {
         printf(SDL_GetError());
     }
-    arrow.loadTexture("res/selection arrow.png", screenRenderer);
-    if(arrow.getTexture() == NULL)
+    heart.loadTexture("res/heart.png", screenRenderer);
+    if(heart.getTexture() == NULL)
     {
-        printf("arrow couldn't load");
+        printf("heart couldn't load");
     }
     text.setFont("fonts/retganon.ttf");
     
@@ -48,11 +48,33 @@ void Dialogue::ShowText()
     //printf("strange sdl error: ", SDL_GetError());
 }
 
+void Dialogue::ShowInput()
+{
+    heart.render(screenRenderer, 5, inputY);
+}
 int Dialogue::SelectOption()
 {
-    return 2;
+    if(inputY == 565)
+    {
+        return 3;
+    }
+    else if(inputY == 545)
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
 }
-
+int Dialogue::getSelectorPosY()
+{
+    return inputY;
+}
+void Dialogue::MoveInput(int x)
+{
+    inputY += x;
+}
 void Dialogue::CreateText(std::string myText)
 {
     text.loadFont(myText, {255, 255, 255}, screenRenderer);

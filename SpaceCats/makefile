@@ -8,13 +8,13 @@ CC = g++
 INCLUDE_PATHS = -I src/include 
 
 #LIBRARY_PATHS specifies the additional library paths we'll be including
-LIBRARY_PATHS = -L src/lib
+LIBRARY_PATHS = -L usr/lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # COMPILER_FLAGS = -w -Wl, -subsystem, windows
 
 #LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
+LINKER_FLAGS = -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 #OBJ_NAME specifies the anme of our executable
 OBJ_NAME = main

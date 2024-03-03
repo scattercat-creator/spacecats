@@ -16,6 +16,7 @@ int* runs = &run;
 SDL_Event e;
 bool spacePressed = false;
 std::string currentText = "Press space to continue.";
+bool inputNeeded = false;
 
 bool sceneOne() 
 {
@@ -58,8 +59,23 @@ bool sceneTwo()
         {
             if (e.key.keysym.sym == SDLK_SPACE)
             {
+                if(needInput)
+                {
+                    input = dialogue.SelectOption();
+                }
                 currentText = runScript(input, runs, &needInput);
                 dialogue.CreateText(currentText);
+            }
+            if(needInput)
+            {
+                if(dialogue.getSelectorPosY()>= 545 && e.key.keysym.sym == SDLK_UP)
+                {
+                    dialogue.MoveInput(-20);
+                }
+                else if(dialogue.getSelectorPosY() <= 545 && e.key.keysym.sym == SDLK_DOWN)
+                {
+                    dialogue.MoveInput(20);
+                }
             }
         }          
     }
@@ -71,10 +87,10 @@ bool sceneTwo()
     //printf("hereeee");
     dialogue.ShowText();
     
-    // if(needInput)
-    // {
-    //     cin >> input;
-    // }
+    if(needInput)
+    {
+        dialogue.ShowInput();
+    }
 
     SDL_RenderPresent(screenRenderer);
     //cin.get();

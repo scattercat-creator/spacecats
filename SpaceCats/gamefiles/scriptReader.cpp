@@ -136,7 +136,7 @@ string showChoices()
     returnedString += "possible responses: \n";
     while (done < 3)
     {
-        returnedString += options[done] + "\n";
+        returnedString += "     " + options[done] + "\n";
         done += 1;
     }
     return returnedString;
@@ -320,7 +320,7 @@ string runScript(int input, int *runs, bool* needsInput)
             
         }
     }
-    return "end";
+    return "[END]";
     
 }
 

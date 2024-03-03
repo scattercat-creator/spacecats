@@ -16,9 +16,9 @@ public:
     Texture();
     ~Texture();
     void free();
-    bool loadTexture(std::string path, SDL_Renderer *rend);
-    bool setBlendMode(SDL_BlendMode mode);
-    bool setAlpha(Uint8 alpha);
+    void loadTexture(std::string path, SDL_Renderer *rend);
+    void setBlendMode(SDL_BlendMode mode);
+    void setAlpha(Uint8 alpha);
     SDL_Texture *getTexture();
     SDL_Rect getRect();
     void setRect(int x, int y, int w, int h);

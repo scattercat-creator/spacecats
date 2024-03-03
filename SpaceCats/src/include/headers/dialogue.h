@@ -8,7 +8,8 @@ class Dialogue
 private:
     Texture screen;
     Texture text;
-    Texture arrow;
+    Texture heart;
+    int inputY = 545;
     
     
 public:
@@ -18,7 +19,10 @@ public:
     void ShowText();
     int SelectOption();
     void ShowScreen();
+    void ShowInput();
     void CreateText(std::string myText);
+    int getSelectorPosY();
+    void MoveInput(int x);
 
     enum scenes
     {  

@@ -26,7 +26,7 @@ void Texture::free()
     gTexture = NULL;
 }
 
-bool Texture::loadTexture(std::string path, SDL_Renderer *rend)
+void Texture::loadTexture(std::string path, SDL_Renderer *rend)
 {
     free();
     SDL_Texture *tempTexture = NULL;    
@@ -84,12 +84,12 @@ bool Texture::loadFont(std::string text, SDL_Color textColor, SDL_Renderer*rend)
 
 }
 
-bool Texture::setBlendMode(SDL_BlendMode mode)
+void Texture::setBlendMode(SDL_BlendMode mode)
 {
     SDL_SetTextureBlendMode(gTexture, mode);
 }
 
-bool Texture::setAlpha(Uint8 alpha)
+void Texture::setAlpha(Uint8 alpha)
 {
     SDL_SetTextureAlphaMod(gTexture, alpha);
     opacity = alpha;
